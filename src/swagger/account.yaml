@@ -1,5 +1,5 @@
 paths:
-  "/accounts/echo/{tokenId}":
+  "/echo/{tokenId}":
     get:
       security:
         - Bearer: []
@@ -53,7 +53,7 @@ paths:
       parameters:
         - name: tokenId
           in: path
-          description: token id of current user
+          description: token id of current user. example id=quiqoweryioweqry223
           required: true
           schema:
             type: string
