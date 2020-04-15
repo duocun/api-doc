@@ -1,0 +1,38 @@
+{
+	"name": "swagger-template",
+	"version": "1.0.0",
+	"description": "",
+	"main": "server.js",
+	"scripts": {
+		"copy": "rm -fr dist/swagger && cp -r src/swagger dist/ && cp -r src/public dist/",
+		"start": "nodemon src/server.js --exec babel-node --presets es2015",
+		"build": "babel src --out-dir dist --source-maps",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"dev": "npm run build && npm run copy && node dist/server.js"
+	},
+	"engines": {
+		"node": "^10"
+	},
+	"keywords": [
+		"es6"
+	],
+	"author": "dustin.zhang",
+	"license": "MIT",
+	"dependencies": {
+		"body-parser": "^1.19.0",
+		"cors": "^2.8.5",
+		"express": "^4.17.1",
+		"serve-favicon": "^2.5.0",
+		"stripe": "^8.7.0",
+		"swagger-jsdoc": "^3.4.0",
+		"swagger-ui-express": "^4.1.2",
+		"yamljs": "^0.3.0"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.26.0",
+		"babel-core": "^6.26.3",
+		"babel-jest": "^23.6.0",
+		"babel-preset-es2015": "^6.24.1",
+		"regenerator-runtime": "^0.12.1"
+	}
+}
