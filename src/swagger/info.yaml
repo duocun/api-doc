@@ -1,15 +1,15 @@
 openapi: 3.0.1
 info:
   title: Duocun Service API
-  description: Duocuns application restful API
+  description: Duocun Restful API
   license:
     name: MIT
     url: https://opensource.org/licenses/MIT
-  version: 1.0.0
+  version: 0.0.1 alpha
 servers:
-  - url: http://localhost:9001/api/accounts
+  - url: http://localhost:5007/api/accounts
     description: accounts module
-  - url: http://localhost:9001/api/orders
+  - url: http://localhost:5007/api/orders
     description: orders module
 schemes:
   - http
