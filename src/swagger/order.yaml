@@ -1,0 +1,105 @@
+paths:
+  "/v2/":
+    get:
+      componets:
+        securitySchemes:
+          bearerAuth:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+      security:
+        - Bearer: []
+      tags:
+        - Orders
+      summary: get orders, return an array of the order objects
+
+      # parameters:
+        # - name: tokenId
+        #   in: path
+        #   description: token id of current user
+        #   required: true
+        #   schema:
+        #     type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        400:
+          description: invalid auth code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: INVALID_CREDENTIAL
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: DATABASE_ERROR | SERVER_ERROR
+
+  
+components:
+  schemas:
+    Echo:
+      type: object
+      properties:
+        token:
+          type: string
+
+    Account:
+      required:
+        - _id
+      type: object
+      properties:
+        _id:
+          type: string
+        items:
+          type: object
+          description: object type
+        price:
+          type: number
+        cost:
+          type: number
+        paymentMethod:
+          type: string
+          description: W for wechat, CC for Credit Card, P for Prepaid, CA for CASH
+        paymentStatus:
+          type: string
+          description: P for paid, U for unpaid
+        status:
+          type: string
+          description: F for Finished, T for Temp, N for New
+        client:
+          type: object
+          description: account
+        merchant:
+          type: object
+          description: account
+        # merchantAccount:
+        #   type: object
+        #   description: account
+        driver:
+          type: object
+          description: account
+        note:
+          type: string
+        delivered:
+          type: string
+        created:
+          type: string
+
+    Orders:
+      type: array
+      items:
+        $ref: "#/components/schemas/Order"
