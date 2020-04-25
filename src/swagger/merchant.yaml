@@ -122,6 +122,11 @@ components:
           type: string
         description:
           type: string
+        descriptionEN:
+          type: string
+        type:
+          type: string
+          description: AppType, G for grocery, F for Food delivery 
         accountId:
           type: string
         pictures:
