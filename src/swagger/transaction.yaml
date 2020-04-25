@@ -4,29 +4,32 @@ info:
   description: Duocun api
   version: 0.0.1
 severs:
-  - url: http://localhost:8000/api/Orders/G
+  - url: http://localhost:8000/api/Transactions/
 paths:
-  "/v2/":
+  /page/{clientId}/{currentPageNumber}/{itemsPerPage}:
     get:
-      componets:
-        securitySchemes:
-          bearerAuth:
-            type: http
-            scheme: bearer
-            bearerFormat: JWT
       security:
         - Bearer: []
       tags:
-        - Orders
-      summary: get orders, return an array of the order objects
+        - Transactions
+      summary: get list of transactions
 
-      # parameters:
-        # - name: tokenId
-        #   in: path
-        #   description: token id of current user
-        #   required: true
-        #   schema:
-        #     type: string
+      parameters:
+        - name: clientId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: currentPageNumber
+          in: path
+          required: true
+          schema:
+            type: number
+        - name: itemsPerPage
+          in: path
+          required: true
+          schema:
+            type: number
       responses:
         200:
           description: OK
@@ -38,9 +41,12 @@ paths:
                     code:
                       type: string
                       description: success,  other strings means fail
+                    total:
+                      type: number
+                      description: total number of transactions
                     data:
                       type: object
-                      $ref: "#/components/schemas/Order"
+                      $ref: "#/components/schemas/Transactions"
         400:
           description: invalid auth code
           content:
@@ -71,49 +77,34 @@ components:
         token:
           type: string
 
-    Account:
+    Transaction:
       required:
         - _id
       type: object
       properties:
         _id:
           type: string
-        items:
-          type: object
-          description: object type
-        price:
+        fromId:
+          type: string
+        fromName:
+          type: string
+        toId:
+          type: string
+        toName:
+          type: string
+        amount:
           type: number
-        cost:
-          type: number
-        paymentMethod:
-          type: string
-          description: W for wechat, CC for Credit Card, P for Prepaid, CA for CASH
-        paymentStatus:
-          type: string
-          description: P for paid, U for unpaid
-        status:
-          type: string
-          description: F for Finished, T for Temp, N for New
-        client:
-          type: object
-          description: account
-        merchant:
-          type: object
-          description: account
-        # merchantAccount:
-        #   type: object
-        #   description: account
-        driver:
-          type: object
-          description: account
-        note:
-          type: string
-        delivered:
-          type: string
         created:
           type: string
+          description: create date
+        modified:
+          type: string
+          description: modified date
+        actionCode:
+          type: string
+          description: see TransactionAction code
 
-    Orders:
+    Transactions:
       type: array
       items:
-        $ref: "#/components/schemas/Order"
+        $ref: "#/components/schemas/Transaction"
