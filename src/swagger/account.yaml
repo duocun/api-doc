@@ -104,14 +104,14 @@ paths:
                     type: string
                     description: DATABASE_ERROR | SERVER_ERROR
 
-  /current/{tokenId}:
+  /token/{id}:
     get:
       security:
         - Bearer: []
-      summary: login app with token id (/current), return an account object
+      summary: login app with token id, return an account object
 
       parameters:
-        - name: tokenId
+        - name: id
           in: path
           description: token id of current user.
           required: true

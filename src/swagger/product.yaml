@@ -13,15 +13,15 @@ paths:
       summary: return list of products
 
       parameters:
-        - name: status
-          in: query
-          description: A for active, I for inactive areas, without this parameter will return all
-          required: false
-          schema:
-            type: string
         - name: merchantId
           in: query
           description: string of merchant id
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          description: A for active, I for inactive areas, without this parameter will return all
           required: false
           schema:
             type: string

@@ -57,19 +57,19 @@ paths:
     get:
       security:
         - Bearer: []
-      summary: return a list of areas
+      summary: input my location and return the area my location belong to
 
       parameters:
         - name: lat
           in: query
           required: true
-          description: without this parameter will return []
+          description: without this parameter will return null
           schema:
             type: number
         - name: lng
           in: query
           required: true
-          description: without this parameter will return []
+          description: without this parameter will return null
           schema:
             type: number
       responses:

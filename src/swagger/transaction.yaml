@@ -6,7 +6,7 @@ info:
 severs:
   - url: http://localhost:8000/api/Transactions/
 paths:
-  /loadPage/{clientId}/{currentPageNumber}/{itemsPerPage}:
+  /page/{clientId}/{currentPageNumber}/{itemsPerPage}:
     get:
       security:
         - Bearer: []
@@ -41,6 +41,9 @@ paths:
                     code:
                       type: string
                       description: success,  other strings means fail
+                    total:
+                      type: number
+                      description: total number of transactions
                     data:
                       type: object
                       $ref: "#/components/schemas/Transactions"
