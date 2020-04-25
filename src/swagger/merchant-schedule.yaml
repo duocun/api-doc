@@ -1,0 +1,105 @@
+openapi: 3.0.0
+info:
+  title: Account API
+  description: Duocun api
+  version: 0.0.1
+severs:
+  - url: http://localhost:8000/api/MerchantSchedules/G
+paths:
+  /avaliables:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Transactions
+      summary: login app with token id (/current), return an account object
+
+      parameters:
+        - name: tokenId
+          in: path
+          description: token id of current user. example id=quiqoweryioweqry223
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Merchant"
+        400:
+          description: invalid auth code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: INVALID_CREDENTIAL
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: DATABASE_ERROR | SERVER_ERROR
+
+  
+components:
+  schemas:
+    Echo:
+      type: object
+      properties:
+        token:
+          type: string
+
+    MerchantSchedule:
+      required:
+        - _id
+      type: object
+      properties:
+        _id:
+          type: string
+        merchantId:
+          type: string
+        areaId:
+          type: string
+        areaCode:
+          type: string
+        rules:
+          type: object
+          properties:
+            pickup:
+              type: object
+              properties:
+                dow:
+                  type: string;
+                  description: '1'
+                time:
+                  type: string;
+                  description: eg. '10:00'
+            deliver:
+              type: object
+              properties:
+                dow:
+                  type: string;
+                  description: '1'
+                time:
+                  type: string;
+                  description: eg. '10:00'
+        created:
+          type: string
+          description: create date
+        modified:
+          type: string
+          description: modified date
+
+    MerchantSchedule:
+      type: array
+      items:
+        $ref: "#/components/schemas/MerchantSchedule"

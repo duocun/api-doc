@@ -1,3 +1,10 @@
+openapi: 3.0.0
+info:
+  title: Account API
+  description: Duocun api
+  version: 0.0.1
+severs:
+  - url: http://localhost:8000/api/Orders/G
 paths:
   "/v2/":
     get:

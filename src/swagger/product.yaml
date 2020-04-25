@@ -1,0 +1,145 @@
+openapi: 3.0.0
+info:
+  title: Product API
+  description: Duocun api
+  version: 0.0.1
+severs:
+  - url: http://localhost:8000/api/Products/G
+paths:
+  /:
+    get:
+      security:
+        - Bearer: []
+      summary: return list of products
+
+      parameters:
+        - name: status
+          in: query
+          description: A for active, I for inactive areas, without this parameter will return all
+          required: false
+          schema:
+            type: string
+        - name: merchantId
+          in: query
+          description: string of merchant id
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Products"
+        400:
+          description: invalid auth code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: INVALID_CREDENTIAL
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: DATABASE_ERROR | SERVER_ERROR
+
+/{productId}:
+    get:
+      security:
+        - Bearer: []
+      summary: return a product by product id
+
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        400:
+          description: invalid auth code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: INVALID_CREDENTIAL
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: DATABASE_ERROR | SERVER_ERROR
+  
+components:
+  schemas:
+    Echo:
+      type: object
+      properties:
+        token:
+          type: string
+
+    Product:
+      required:
+        - _id
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        nameEN:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        cost:
+          type: number
+        taxRate:
+          type: number
+          description: eg. 13 means 13 percent
+        merchantId:
+          type: string
+        categoryId:
+          type: string
+        pictures:
+          type: string array
+        dow:
+          type: array
+        status:
+          type: string
+          description: A for active, I for inactive
+        # created:
+        #   type: string
+        #   description: create date
+        # modified:
+        #   type: string
+        #   description: modified date
+
+    Products:
+      type: array
+      items:
+        $ref: "#/components/schemas/Product"
