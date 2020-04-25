@@ -25,7 +25,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Merchants"
+                type: object
+                  properties:
+                    code:
+                      type: string
+                      description: success,  other strings means fail
+                    data:
+                      type: object
+                      $ref: "#/components/schemas/Merchants"
         400:
           description: invalid auth code
           content:
@@ -47,14 +54,14 @@ paths:
                     type: string
                     description: DATABASE_ERROR | SERVER_ERROR
 
-/{merchantId}:
+/{id}:
     get:
       security:
         - Bearer: []
       summary: return a merchant by merchant id
 
       parameters:
-        - name: merchantId
+        - name: id
           in: path
           required: true
           schema:
@@ -65,7 +72,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Merchant"
+                type: object
+                  properties:
+                    code:
+                      type: string
+                      description: success,  other strings means fail
+                    data:
+                      type: object
+                      $ref: "#/components/schemas/Merchant"
         400:
           description: invalid auth code
           content:

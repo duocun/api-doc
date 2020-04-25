@@ -36,7 +36,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Transactions"
+                type: object
+                  properties:
+                    code:
+                      type: string
+                      description: success,  other strings means fail
+                    data:
+                      type: object
+                      $ref: "#/components/schemas/Transactions"
         400:
           description: invalid auth code
           content:

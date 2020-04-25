@@ -12,7 +12,7 @@ paths:
         - Bearer: []
       tags:
         - Transactions
-      summary: login app with token id (/current), return an account object
+      summary: return a list of transactions
 
       parameters:
         - name: tokenId
@@ -27,7 +27,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Merchant"
+                type: object
+                  properties:
+                    code:
+                      type: string
+                      description: success,  other strings means fail
+                    data:
+                      type: object
+                      $ref: "#/components/schemas/Merchant"
         400:
           description: invalid auth code
           content:

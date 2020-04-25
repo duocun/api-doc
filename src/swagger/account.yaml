@@ -14,46 +14,6 @@ paths:
         - Accounts
       summary: update account
       parameters:
-        - name: tokenId
-          in: path
-          description: token id of current user
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              'success'
-        400:
-          description: invalid auth code
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: INVALID_CREDENTIAL
-        500:
-          description: server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  code:
-                    type: string
-                    description: DATABASE_ERROR | SERVER_ERROR
-
-  /{accountId}:
-    get:
-      security:
-        - Bearer: []
-      summary: return a list of accounts
-
-      parameters:
         - name: status
           in: query
           description: A for active, I for inactive accounts, without this parameter will return all
@@ -66,7 +26,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Account"
+                type: object
+                  properties:
+                    code:
+                      type: string
+                      description: success,  other strings means fail
+                    data:
+                      type: object
+                      $ref: "#/components/schemas/Accounts"
         400:
           description: invalid auth code
           content:
@@ -88,18 +55,65 @@ paths:
                     type: string
                     description: DATABASE_ERROR | SERVER_ERROR
 
-  "/current?tokenId=":
+  /{id}:
     get:
       security:
         - Bearer: []
-      tags:
-        - Accounts
+      summary: return an account
+
+      parameters:
+        - name: id
+          in: path
+          description: account id
+          required: true
+          schema:
+            type: string
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                  properties:
+                    code:
+                      type: string
+                      description: success,  other strings means fail
+                    data:
+                      type: object
+                      $ref: "#/components/schemas/Account"
+        400:
+          description: invalid auth code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: INVALID_CREDENTIAL
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: DATABASE_ERROR | SERVER_ERROR
+
+  /current/{tokenId}:
+    get:
+      security:
+        - Bearer: []
       summary: login app with token id (/current), return an account object
 
       parameters:
         - name: tokenId
           in: path
-          description: token id of current user. example id=quiqoweryioweqry223
+          description: token id of current user.
           required: true
           schema:
             type: string
@@ -109,7 +123,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Account"
+                type: object
+                  properties:
+                    code:
+                      type: string
+                      description: success,  other strings means fail
+                    data:
+                      type: object
+                      $ref: "#/components/schemas/Account"
         400:
           description: invalid auth code
           content:

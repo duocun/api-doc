@@ -31,7 +31,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Products"
+                type: object
+                  properties:
+                    code:
+                      type: string
+                      description: success,  other strings means fail
+                    data:
+                      type: object
+                      $ref: "#/components/schemas/Products"
         400:
           description: invalid auth code
           content:
@@ -53,14 +60,14 @@ paths:
                     type: string
                     description: DATABASE_ERROR | SERVER_ERROR
 
-/{productId}:
+/{id}:
     get:
       security:
         - Bearer: []
       summary: return a product by product id
 
       parameters:
-        - name: productId
+        - name: id
           in: path
           required: true
           schema:
@@ -71,7 +78,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Product"
+                type: object
+                  properties:
+                    code:
+                      type: string
+                      description: success,  other strings means fail
+                    data:
+                      type: object
+                      $ref: "#/components/schemas/Product"
         400:
           description: invalid auth code
           content:

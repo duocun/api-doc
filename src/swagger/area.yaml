@@ -25,7 +25,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Areas"
+                type: object
+                  properties:
+                    code:
+                      type: string
+                      description: success,  other strings means fail
+                    data:
+                      type: object
+                      $ref: "#/components/schemas/Areas"
         400:
           description: invalid auth code
           content:
@@ -71,7 +78,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Area"
+                type: object
+                  properties:
+                    code:
+                      type: string
+                      description: success,  other strings means fail
+                    data:
+                      type: object
+                      $ref: "#/components/schemas/Area"
         400:
           description: invalid auth code
           content:

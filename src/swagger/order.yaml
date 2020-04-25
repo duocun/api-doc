@@ -33,7 +33,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Order"
+                type: object
+                  properties:
+                    code:
+                      type: string
+                      description: success,  other strings means fail
+                    data:
+                      type: object
+                      $ref: "#/components/schemas/Order"
         400:
           description: invalid auth code
           content:
