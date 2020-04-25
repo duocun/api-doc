@@ -1,0 +1,154 @@
+openapi: 3.0.0
+info:
+  title: Area API
+  description: Duocun api
+  version: 0.0.1
+severs:
+  - url: http://localhost:8000/api/Merchants/G
+paths:
+  /:
+    get:
+      security:
+        - Bearer: []
+      summary: return list of merchants
+
+      parameters:
+        - name: status
+          in: query
+          description: A for active, I for inactive areas, without this parameter will return all
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                  properties:
+                    code:
+                      type: string
+                      description: success,  other strings means fail
+                    data:
+                      type: object
+                      $ref: "#/components/schemas/Merchants"
+        400:
+          description: invalid auth code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: INVALID_CREDENTIAL
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: DATABASE_ERROR | SERVER_ERROR
+
+/{id}:
+    get:
+      security:
+        - Bearer: []
+      summary: return a merchant by merchant id
+
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                  properties:
+                    code:
+                      type: string
+                      description: success,  other strings means fail
+                    data:
+                      type: object
+                      $ref: "#/components/schemas/Merchant"
+        400:
+          description: invalid auth code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: INVALID_CREDENTIAL
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: DATABASE_ERROR | SERVER_ERROR
+  
+components:
+  schemas:
+    Echo:
+      type: object
+      properties:
+        token:
+          type: string
+
+    Merchant:
+      required:
+        - _id
+      type: object
+      properties:
+        _id:
+          type: string
+        name:
+          type: string
+        nameEN:
+          type: string
+        description:
+          type: string
+        accountId:
+          type: string
+        pictures:
+          type: string array
+        status:
+          type: string
+          description: A for active, I for inactive
+        rules:
+          type: object
+          properties:
+            orderEnd:
+              type: object
+              properties:
+                dow:
+                  type: string;
+                  description: '1'
+                time:
+                  type: string;
+                  description: eg. 10:00
+        created:
+          type: string
+          description: create date
+        modified:
+          type: string
+          description: modified date
+
+    Merchants:
+      type: array
+      items:
+        $ref: "#/components/schemas/Merchant"
