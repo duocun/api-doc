@@ -4,10 +4,10 @@ info:
   description: Duocun api
   version: 0.0.1
 severs:
-  - url: http://localhost:8000/api/Orders/G
+  - url: http://localhost:8000/api/Orders
 paths:
-  "/v2/":
-    get:
+  "/bulk/":
+    post:
       componets:
         securitySchemes:
           bearerAuth:
@@ -16,17 +16,102 @@ paths:
             bearerFormat: JWT
       security:
         - Bearer: []
-      tags:
-        - Orders
-      summary: get orders, return an array of the order objects
+      summary: save orders and add corresponding transactions, return a list of the new orders with paymentId and _id
 
-      # parameters:
-        # - name: tokenId
-        #   in: path
-        #   description: token id of current user
-        #   required: true
-        #   schema:
-        #     type: string
+      requestBody:
+        required: true
+        content:
+          application/json:  
+          schema:
+            type: array
+            items:
+              type: object
+              properties:
+
+                clientId:
+                  type:string
+                clientName:
+                  type: string
+                merchantId:
+                  type: string
+                merchantName:
+                  type: string
+
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      productId:
+                        type: string
+                      price:
+                        type: number
+                      cost:
+                        type: number
+                      quantity:
+                        type: number
+                location:
+                  type: object
+                  properties:
+                    placeId:
+                      type: string
+                    streetNumber:
+                      type: string
+                    streetName:
+                      type: string
+                    subLocality:
+                      type: string
+                    city:
+                      type: string
+                    province:
+                      type: string
+                    postalCode:
+                      type: string
+                    lat:
+                      type: number
+                    lng:
+                      type: number
+                  pickupTime:
+                    type: string
+                    description: local time, should be 10:00 for now
+                  deliverDate:
+                    type: string
+                  deliverTime:
+                    type: string
+                  type:
+                    type: string
+                    description: G fro grocery
+                  status:
+                    type: string
+                    description: F for Finished, T for Temp, N for New
+                  paymentMethod:
+                    type: string
+                    description: W for wechat, CC for Credit Card, P for Prepaid, CA for CASH
+                  paymentStatus:
+                    type: string
+                    description: P for paid, U for unpaid
+                  price:
+                    type: number
+                  cost:
+                    type: number
+                  deliveryCost:
+                    type: number
+                  deliveryDiscount:
+                    type: number
+                  groupDiscount:
+                    type: number
+                  overRangeCharge:
+                    type: number
+                  total:
+                    type: number
+                  tax:
+                    type: number
+                  defaultPickupTime:
+                    type: string
+                    description: '' as default
+                  note:
+                    type: string
+
       responses:
         200:
           description: OK
@@ -40,7 +125,7 @@ paths:
                       description: success,  other strings means fail
                     data:
                       type: object
-                      $ref: "#/components/schemas/Order"
+                      $ref: "#/components/schemas/Orders"
         400:
           description: invalid auth code
           content:
