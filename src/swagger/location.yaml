@@ -1,0 +1,189 @@
+paths:
+    "http://localhost:8000/api/Locations/places/{inputAddress}":
+    get:
+
+      summary: get places, return an array of the place objects
+
+      parameters:
+          - in: path
+          name: inputAddress
+          
+ 
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                  properties:
+                    code:
+                      type: string
+                      description: success,  other strings means fail
+                    data:
+                      type: object
+                      schema:
+                       $ref: "#/components/schemas/Place"
+ 
+
+    "http://localhost:8000/api/Locations/geocodes/{inputAddress}":
+    get:
+
+      summary: get accurate places, return an array of the place objects
+
+      parameters:
+          - in: path
+          name: inputAddress
+  
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                  properties:
+                    code:
+                      type: string
+                      description: success,  other strings means fail
+                    data:
+                      type: object
+                      schema:
+                       $ref: "#/components/schemas/Location"
+
+      "http://localhost:8000/api/Locations/":
+      get:
+
+        summary: get an array of locations
+
+        parameters:
+
+        responses:
+          200:
+           description: OK
+           content:
+            application/json:
+              $ref: "#/components/schemas/Location"
+
+              
+     http://localhost:8000/api/Locations/upsertOne：
+    post:
+
+      summary: update address info to the current account
+
+      data:
+          - query: 
+              type: object
+              schema:                       
+                $ref: "#/components/schemas/UpsertQuery"
+          - data:
+              type: object
+              schema:                       
+                $ref: "#/components/schemas/UpsertData"
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpsertResult"
+                          
+  
+components:
+  schemas:
+    Place:
+      type: object
+      properties:
+          _id: 
+            type: string;
+          type: 
+            type: string;
+          description: 
+            type: string;
+          placeId: 
+            type: string;
+          structured_formatting: 
+            type: StructuredAddress;
+            schema:
+             $ref: "#/components/schemas/StructuredAddress"
+          terms: 
+            type: PlaceTerm;
+            schema:
+             $ref: "#/components/schemas/PlaceTerm"
+          location:
+            type: Location;
+            schema:
+             $ref: "#/components/schemas/Location"
+    StructureAddress: 
+      type: object
+      properties: 
+        main_text:
+          type: string;
+        secondary_text:
+          type: string;
+    Location:
+      type: object
+      properties: 
+        _id:
+          type: string;
+        placeId:
+          type: string;
+        lat:
+          type: number;
+        lng: 
+          type: number;
+        unit: 
+          type: string;
+        streetName: 
+          type: string;
+        streetNumber: 
+          type: string;
+        subLocality:
+          type: string;
+        city: 
+          type: string;
+        province: 
+          type: string;
+        country: 
+          type: string;
+        postalCode: 
+          type: string;
+    PlaceTerm:
+      type: object
+      properties: 
+        offset:
+          type: number;
+        value: 
+          type: string;
+    UpsertQuery:
+      type: object
+      properties:
+       accountId:
+        type: string
+       placeId:
+        type: string
+    UpsertData:
+      type: object
+      properties:
+        accountId:
+          type: string
+        accountName:
+          type: string
+        location:
+          type: object
+          schema:
+            $ref: "#/components/schemas/Location"
+        placeId:
+          type: string
+    UpsertResult:
+      type: object
+      properties: 
+        n:
+          type: number
+        nModified: 
+          type: number
+        upserted:
+          type: []
+        ok:
+          type: number
