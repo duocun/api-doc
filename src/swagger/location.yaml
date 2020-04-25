@@ -1,12 +1,12 @@
 paths:
-    "http://localhost:8000/api/Locations/places/{inputAddress}":
+    "http://localhost:8000/api/Locations/place/{keyword}":
     get:
 
-      summary: get places, return an array of the place objects
+      summary: input address keyword return a list of place object 
 
       parameters:
           - in: path
-          name: inputAddress
+          name: keyword
           
  
       responses:
@@ -26,15 +26,15 @@ paths:
                        $ref: "#/components/schemas/Place"
  
 
-    "http://localhost:8000/api/Locations/geocodes/{inputAddress}":
+    "http://localhost:8000/api/Locations/geocode/{address}":
     get:
 
-      summary: get accurate places, return an array of the place objects
+      summary: input address string, get google formatted address (with lat and lng)
 
       parameters:
           - in: path
-          name: inputAddress
-  
+          name: adress
+          type: string
       responses:
         200:
           description: OK
@@ -69,7 +69,7 @@ paths:
      http://localhost:8000/api/Locations/upsertOne：
     post:
 
-      summary: update address info to the current account
+      summary: cache google location into database by input client id, place id and updated data.
 
       data:
           - query: 
