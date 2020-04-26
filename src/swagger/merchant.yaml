@@ -100,7 +100,75 @@ paths:
                   code:
                     type: string
                     description: DATABASE_ERROR | SERVER_ERROR
-  
+/deliverSchedules:
+    get:
+      security:
+        - Bearer: []
+      summary: return list of deliver date and time (Toronto local time)
+
+      parameters:
+        - name: dt
+          in: query
+          description: current client side local time, must be url escaped before send
+          required: true
+          schema:
+            type: string
+
+        - name: merchantId
+          in: query
+          description: merchantId
+          required: true
+          schema:
+            type: string
+
+        - name: lat
+          in: query
+          required: true
+          description: without this parameter will return null
+          schema:
+            type: number
+
+        - name: lng
+          in: query
+          required: true
+          description: without this parameter will return null
+          schema:
+            type: number
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                  properties:
+                    code:
+                      type: string
+                      description: success,  other strings means fail
+                    data:
+                      type: object
+                      $ref: "#/components/schemas/Merchants"
+        400:
+          description: invalid auth code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: INVALID_CREDENTIAL
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: DATABASE_ERROR | SERVER_ERROR  
 components:
   schemas:
     Echo:
