@@ -100,6 +100,69 @@ paths:
                   code:
                     type: string
                     description: DATABASE_ERROR | SERVER_ERROR
+
+/available:
+  get:
+      security:
+        - Bearer: []
+      summary: return a list of merchants
+
+      parameters:
+        - name: lat
+          in: query
+          required: true
+          description: without this parameter will return []
+          schema:
+            type: number
+        - name: lng
+          in: query
+          required: true
+          description: without this parameter will return []
+          schema:
+            type: number
+        - name: status
+          in: query
+          description: optional, A for active, I for inactive areas, without this parameter will return all
+          required: false
+          schema:
+            type: string
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                  properties:
+                    code:
+                      type: string
+                      description: success,  other strings means fail
+                    data:
+                      type: object
+                      $ref: "#/components/schemas/Merchants"
+        400:
+          description: invalid auth code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: INVALID_CREDENTIAL
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: DATABASE_ERROR | SERVER_ERROR
+
+                 
 /deliverSchedules:
     get:
       security:
