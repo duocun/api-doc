@@ -1,14 +1,18 @@
+openapi: 3.0.0
+info:
+  title: Area API
+  description: Duocun api
+  version: 0.0.1
+severs:
+  - url: http://localhost:8000/api/Locations
 paths:
-    "http://localhost:8000/api/Locations/place/{keyword}":
+  /place/{keyword}:
     get:
-
       summary: input address keyword return a list of place object 
-
       parameters:
           - in: path
           name: keyword
           
- 
       responses:
         200:
           description: OK
@@ -21,12 +25,12 @@ paths:
                       type: string
                       description: success,  other strings means fail
                     data:
-                      type: object
+                        type: object
                       schema:
-                       $ref: "#/components/schemas/Place"
+                        $ref: "#/components/schemas/Place"
  
 
-    "http://localhost:8000/api/Locations/geocode/{address}":
+  /geocode/{address}:
     get:
 
       summary: input address string, get google formatted address (with lat and lng)
@@ -51,22 +55,23 @@ paths:
                       schema:
                        $ref: "#/components/schemas/Location"
 
-      "http://localhost:8000/api/Locations/":
+  /history/{accountId}:
       get:
-
-        summary: get an array of locations
-
+        summary: get an list of client locations history 
         parameters:
+          name: accountId
+          - in: path
+          type: string
 
         responses:
           200:
            description: OK
            content:
             application/json:
-              $ref: "#/components/schemas/Location"
+              $ref: "#/components/schemas/Locations"
 
               
-     http://localhost:8000/api/Locations/upsertOne：
+  /upsertOne:
     post:
 
       summary: cache google location into database by input client id, place id and updated data.
@@ -92,6 +97,7 @@ paths:
   
 components:
   schemas:
+
     Place:
       type: object
       properties:
@@ -122,6 +128,8 @@ components:
           type: string;
         secondary_text:
           type: string;
+
+
     Location:
       type: object
       properties: 
@@ -187,3 +195,8 @@ components:
           type: []
         ok:
           type: number
+
+    Locations:
+      type: array
+      items:
+        $ref: "#/components/schemas/Location"
