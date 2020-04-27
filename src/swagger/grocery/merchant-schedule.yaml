@@ -1,0 +1,119 @@
+openapi: 3.0.0
+info:
+  title: MerchantSchedule API
+  description: Duocun api
+  version: 0.0.1
+severs:
+  - url: http://localhost:8000/api/MerchantSchedules/G
+paths:
+  "/":
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - MerchantSchedule
+      summary: return a list of transactions
+      parameters:
+        - name: lat
+          in: query
+          required: true
+          description: without this parameter will return []
+          type: number
+        - name: lng
+          in: query
+          required: true
+          description: without this parameter will return []
+          type: number
+        - name: merchantId
+          in: query
+          required: false
+          type: string
+        - name: status
+          in: query
+          description: A for active, I for inactive areas, without this parameter will return all
+          required: false
+          type: string
+
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: success,  other strings means fail
+                  data:
+                    $ref: "#/components/schemas/Merchant"
+        400:
+          description: invalid auth code
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: INVALID_CREDENTIAL
+        500:
+          description: server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    description: DATABASE_ERROR | SERVER_ERROR
+
+  
+components:
+  schemas:
+
+    MerchantSchedule:
+      required:
+        - _id
+      type: object
+      properties:
+        _id:
+          type: string
+        merchantId:
+          type: string
+        areaId:
+          type: string
+        areaCode:
+          type: string
+        rules:
+          type: object
+          properties:
+            pickup:
+              type: object
+              properties:
+                dow:
+                  type: string;
+                  description: '1'
+                time:
+                  type: string;
+                  description: eg. '10:00'
+            deliver:
+              type: object
+              properties:
+                dow:
+                  type: string;
+                  description: '1'
+                time:
+                  type: string;
+                  description: eg. '10:00'
+                created:
+                  type: string
+                  description: create date
+                modified:
+                  type: string
+                  description: modified date
+
+    MerchantSchedule:
+      type: array
+      items:
+        $ref: "#/components/schemas/MerchantSchedule"
